@@ -1,5 +1,7 @@
+const API_BASE_URL = 'http://localhost:3000/api';
+
 export async function fetchCategories() {
-    const response = await fetch('http://localhost:3000/api/categories');
+    const response = await fetch(`${API_BASE_URL}/categories`);
     if (!response.ok) {
         throw new Error('Failed to fetch categories.');
     }
@@ -7,7 +9,7 @@ export async function fetchCategories() {
 }
 
 export async function fetchProducts() {
-    const response = await fetch('http://localhost:3000/api/products');
+    const response = await fetch(`${API_BASE_URL}/products`);
     if (!response.ok) {
         throw new Error('Failed to fetch products.');
     }
@@ -15,7 +17,7 @@ export async function fetchProducts() {
 }
 
 export async function fetchProductById(id) {
-    const response = await fetch(`http://localhost:3000/api/products/${id}`);
+    const response = await fetch(`${API_BASE_URL}/products/${id}`);
     if (!response.ok) {
         throw new Error('Failed to fetch product.');
     }
@@ -23,7 +25,7 @@ export async function fetchProductById(id) {
 }
 
 export async function addProduct(productData) {
-    const response = await fetch('http://localhost:3000/api/products', {
+    const response = await fetch(`${API_BASE_URL}/products`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -37,7 +39,7 @@ export async function addProduct(productData) {
 }
 
 export async function updateProduct(id, updatedData) {
-    const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/products/${id}`, {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json'
@@ -51,7 +53,7 @@ export async function updateProduct(id, updatedData) {
 }
 
 export async function DeleteProduct(id) {
-    const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/products/${id}`, {
         method: "DELETE"
     });
     if (!response.ok) {

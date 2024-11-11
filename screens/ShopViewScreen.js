@@ -12,8 +12,8 @@ export default function ShopViewScreen(props) {
 
         const fetchData = async () => {
             try {
-                const d = await fetchProducts();
-                setProducts(d);
+                const data = await fetchProducts();
+                setProducts(data);
             } catch (error) {
                 console.log(error);
             }
@@ -25,11 +25,18 @@ export default function ShopViewScreen(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Shop View Screen</Text>
       {
         products.map(
             (product) => {
-                <ProductCard key={product.id} name={product.name} />
+                return(
+                    <ProductCard key={product.id} 
+                    name={product.name} 
+                    categoryName={product.Category.name} 
+                    price={product.price}
+                    stock={product.stock}
+                    description={product.description}
+                    />
+                );
             }
         )
       }
