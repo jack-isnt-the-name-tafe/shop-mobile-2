@@ -5,6 +5,7 @@ import {View, Image, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator
 import { useIsFocused } from "@react-navigation/native";
 import { Dropdown } from "react-native-paper-dropdown";
 import { fetchProductById } from '../utils/api';
+import { addProduct } from '../utils/api';
 
 export default function ProductEditScreen(props) {
 
@@ -27,35 +28,18 @@ export default function ProductEditScreen(props) {
   }
   // #endregion
 
-  async function handleSubmit() {
-    try {
-      if (id === -1) {
-        await addPerson(person);
-      } else {
-        await updatePerson(id, person);
-      }
-      props.navigation.goBack();
-    } catch (err) {
-      console.error(err);
-      setError("Failed to save data.");
-    }
-  };
-
   async function handleSubmitTest() {
     try {
       if (id === -1) {
         await addProduct({
-          name: "New Person",
-          phone: "1234567890",
-          departmentId: 1,
-          street: "123 Main St",
-          city: "Anytown",
-          state: "ST",
-          zip: "12345",
-          country: "US",
+          "name": "New Product",
+          "price": 0.5,
+          "stock": 100,
+          "description": "Fresh red apple",
+          "categoryId": 1
         });
       } else {
-        await updateProduct(id, { ...person, name: person.name + " Updated" });
+        await updateProduct(id, { ...product, name: product.name + " Updated" });
       }
       props.navigation.goBack();
     } catch (err) {
@@ -97,7 +81,7 @@ export default function ProductEditScreen(props) {
         Go Back
       </Button>
 
-      <Button mode="contained" icon="content-save" onPress={() => handleDeleteTest()}>
+      <Button mode="contained" icon="content-save" onPress={() => handleSubmitTest()}>
         Save Product Record
       </Button>
     </Surface>

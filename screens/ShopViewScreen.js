@@ -63,8 +63,11 @@ import {View, Image, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator
 import { useIsFocused } from "@react-navigation/native";
 import { Dropdown } from "react-native-paper-dropdown";
 import { fetchProducts } from '../utils/api';
+import { deleteProduct } from '../utils/api';
 
 export default function ShopViewScreen(props) {
+
+  const isFocused = useIsFocused();
 
   const [products, setProducts] = useState([]);
   const [offline, setOffline] = useState(false);
@@ -85,8 +88,10 @@ export default function ShopViewScreen(props) {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (isFocused) {
+      fetchData();
+    }
+  }, [isFocused]);
 
   // #region Navigation
     function showViewProduct(id) {
@@ -95,10 +100,22 @@ export default function ShopViewScreen(props) {
     function showEditProduct(id) {
       props.navigation.navigate("ProductEdit", {id: id});
     }
-    function handleDeleteProduct(id) {
-      console.log(`Delete product`)
-    }
   // #endregion
+
+    async function handleDeleteTest() {
+      const lastProduct = products[products.length - 1].id;
+      try {
+        const success = await deleteProduct(lastProduct);
+        if (success) {
+          fetchData();
+        } else {
+          setError("Failed to delete. Please try again.");
+        }
+      } catch (err) {
+        console.error("Error deleting:", err);
+        setError("Failed to delete. Check your connection.");
+      }
+    }
 
   return (
     <Surface style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
@@ -120,7 +137,7 @@ export default function ShopViewScreen(props) {
         Add Product
       </Button>
 
-      <Button mode="contained" icon="delete" onPress={() => handleDeleteProduct(9)}>
+      <Button mode="contained" icon="delete" onPress={() => handleDeleteTest(9)}>
         Delete Product
       </Button>
 
